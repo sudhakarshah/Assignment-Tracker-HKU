@@ -10,8 +10,7 @@ for (var i=0;i<a.length;i++)
   //console.log(a[i].innerText);
   if(a[i].innerText=="Due date")
   {
-    deadline=b[i].innerHTML;
-    console.log("Added");
+    deadline=new Date(b[i].innerHTML);
     break;
   }
 }
@@ -31,6 +30,9 @@ for(var i=0;i<aTag.length;i++)
     tempCounter=tempCounter+1;
   }
 }
+
+
+
 
 // Checking whether assignment already exists in storage and adding only new assignments
 var assignementExists=false;
@@ -63,6 +65,7 @@ chrome.storage.sync.get(null,function(assignments){
       }
     });
     var newkey='Assignment'+Date.now();
+    alert(deadline);
     var obj={};
     obj[newkey]={"courseName":courseName,"deadline":deadline};
     chrome.storage.sync.set(obj,function(){
