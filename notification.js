@@ -1,19 +1,54 @@
-window.onload=function(){
-  document.getElementById('get').onclick=function(){
-    chrome.storage.sync.get(null,function(assignments){
+
+window.onload = function(){
+
+   chrome.storage.sync.get(null,function(assignments){
       var s="";
       for (key in assignments)
       {
         var as=assignments[key];
         if(key!="counter")
-          s=s+as.courseName+" "+as.deadline+" "+as.status+"\n";
+          {s= as.courseName+" "+as.deadline+" "+as.status+"\n";
+
+          //to sort the assignment according to submission status
+          if(as.status!="Submitted")
+            {var id = guidGenerator();
+
+            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span id='cardtext'>" + "<span id='cardtitle'>" +  as.courseName + "</span>" + "<br><span id='cardBody'>" + "Due on:" + "  " +as.deadline + "</span>"+"</span>" +"</li>";
+            document.getElementById("duecardlist").innerHTML+= html;
+
+            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20']; 
+            var random_color = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById(id).style.backgroundColor = random_color;
+            }
+
+          else
+          {
+            var id = guidGenerator();
+            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span id='cardtext'>" + "<span id='cardtitle'>" +  as.courseName + "</span>" + "<br><span id='cardBody'>" + "Submitted on:" + "  " +as.deadline + "</span>"+"</span>" +"</li>";
+            document.getElementById("submittedcardlist").innerHTML+= html;
+
+            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20']; 
+            var random_color = colors[Math.floor(Math.random() * colors.length)];
+            document.getElementById(id).style.backgroundColor = random_color;
+          }
+
+          }
         else {
           s=s+as+" count"+'\n';
         }
+
       }
-      alert(s+ "hahah");
+     
     });
-  };
+
+}
+
+// Function to generate random IDs for li items
+function guidGenerator() {
+    var S4 = function() {
+       return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+    };
+    return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
 /*
