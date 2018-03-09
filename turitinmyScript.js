@@ -1,26 +1,12 @@
-var a= document.getElementsByClassName('cell c0');
-var b= document.getElementsByClassName('cell c1 lastcol');
-var deadline="Undefined";
+var deadline= document.getElementsByClassName('data cell c2')[0].innerText;
 var courseName="Undefined";
-var status="Not Submitted";
-
-// Finding Deadline of the assignement
-for (var i=0;i<a.length;i++)
+var status="Submitted";
+if(document.getElementsByClassName('left cell c2')[0].innerText=="--")
 {
-  //console.log(a[i].innerText);
-  if(a[i].innerText=="Submission status")
-  {
-    if(b[i].innerText=="Submitted for grading")
-      status="Submitted";
-  }
-  if(a[i].innerText=="Due date")
-  {
-    deadline=b[i].innerHTML;
-    break;
-  }
+    status="Not Submitted";
 }
+alert(deadline+" "+status);
 
-// Finding the name of the course
 var aTag=document.getElementsByTagName('a');
 var tempCounter=0;
 for(var i=0;i<aTag.length;i++)
@@ -35,15 +21,6 @@ for(var i=0;i<aTag.length;i++)
     tempCounter=tempCounter+1;
   }
 }
-
-/*
-$.getScript("assignmentAdded.js", function() {
-
-   alert("Script loaded but not necessarily executed.");
-});
-*/
-
-
 
 function updateRecord(key,courseName,deadline,status)
 {
