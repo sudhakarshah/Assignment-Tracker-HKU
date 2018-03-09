@@ -1,11 +1,11 @@
 var deadline= document.getElementsByClassName('data cell c2')[0].innerText;
+deadline = deadline.replace('-',' ');
 var courseName="Undefined";
 var status="Submitted";
 if(document.getElementsByClassName('left cell c2')[0].innerText=="--")
 {
     status="Not Submitted";
 }
-alert(deadline+" "+status);
 
 var aTag=document.getElementsByTagName('a');
 var tempCounter=0;
@@ -45,7 +45,7 @@ if (deadline!="Undefined"){
       {
         var storedDeadline=new Date(as.deadline);
         var scrapedDeadline=new Date(deadline);
-        //console.log(storedDeadline.getTime()+" "+scrapedDeadline.getTime());
+        console.log(storedDeadline.getTime()+" "+scrapedDeadline.getTime());
         // If record already exists then check cif status has changed from last time and update if required
         if(as.courseName===courseName && storedDeadline.getTime()===scrapedDeadline.getTime())
         {
