@@ -6,7 +6,7 @@ window.onload=function(){
       {
         var as=assignments[key];
         if(key!="counter")
-          s=s+as.courseName+"\n"+as.deadline+"\n";
+          s=s+as.courseName+" "+as.deadline+" "+as.status+"\n";
         else {
           s=s+as+" count"+'\n';
         }
