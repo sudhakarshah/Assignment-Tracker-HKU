@@ -2,11 +2,19 @@ var deadline= document.getElementsByClassName('data cell c2')[0].innerText;
 deadline = deadline.replace('-',' ');
 var courseName="Undefined";
 var status="Submitted";
+var submittedOn="Undefined";
+var assignmentName="Undefined";
 if(document.getElementsByClassName('left cell c2')[0].innerText=="--")
 {
     status="Not Submitted";
 }
 
+//finding course name
+var aTag=document.querySelectorAll('[itemprop="url"]')[1];
+courseName=aTag.getAttribute("title");
+console.log(courseName);
+
+/*
 var aTag=document.getElementsByTagName('a');
 var tempCounter=0;
 for(var i=0;i<aTag.length;i++)
@@ -21,16 +29,21 @@ for(var i=0;i<aTag.length;i++)
     tempCounter=tempCounter+1;
   }
 }
+*/
 
-function updateRecord(key,courseName,deadline,status)
+
+// finding assignment name
+assignmentName=document.querySelectorAll('[itemprop="title"]')[3].innerText;
+console.log(assignmentName);
+
+function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 {
   var obj={};
-  obj[key]={"courseName":courseName,"deadline":deadline,"status":status};
+  obj[key]={"courseName":courseName,"name":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
   chrome.storage.sync.set(obj,function(){
     alert("record updated");
   })
 }
-
 // confirming if the current page is of assignment submission
 if (deadline!="Undefined"){
 
@@ -76,11 +89,15 @@ if (deadline!="Undefined"){
       });
       var newkey='Assignment'+Date.now();
       alert(deadline);
+      updateRecord(newkey,courseName,assignmentName,deadline,status,submittedOn);
+      /*
       var obj={};
       obj[newkey]={"courseName":courseName,"deadline":deadline,"status":status};
       chrome.storage.sync.set(obj,function(){
         alert("added");
+
       })
+        */
     }
   });
 

@@ -16,7 +16,7 @@ window.onload = function(){
             var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span id='cardtext'>" + "<span id='cardtitle'>" +  as.courseName + "</span>" + "<br><span id='cardBody'>" + "Due on:" + "  " +as.deadline + "</span>"+"</span>" +"</li>";
             document.getElementById("duecardlist").innerHTML+= html;
 
-            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20']; 
+            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
             }
@@ -27,7 +27,7 @@ window.onload = function(){
             var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span id='cardtext'>" + "<span id='cardtitle'>" +  as.courseName + "</span>" + "<br><span id='cardBody'>" + "Submitted on:" + "  " +as.deadline + "</span>"+"</span>" +"</li>";
             document.getElementById("submittedcardlist").innerHTML+= html;
 
-            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20']; 
+            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
           }
@@ -38,7 +38,7 @@ window.onload = function(){
         }
 
       }
-     
+
     });
 
 }
