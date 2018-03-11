@@ -49,7 +49,7 @@ ul
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-#cardtext
+.cardtext
 {
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
@@ -58,7 +58,7 @@ ul
 
 }
 
-#cardTitle
+.cardTitle
 {
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
@@ -67,12 +67,25 @@ ul
 
 }
 
-#cardBody
+.cardBody
 {
 
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
 	font-size: 13px;
 	margin-top: 60px;
+
+}
+
+.cardDays
+{
+
+  color: white;
+  font-family: 'Source Sans Pro' , sans-serif;
+  font-size: 50px;
+  margin-bottom : 100px;
+  font-weight: 30%;
+
+
 
 }
