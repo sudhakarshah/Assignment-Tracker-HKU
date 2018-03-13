@@ -15,14 +15,23 @@
   "content_scripts":[
   { "run_at": "document_end",
     "matches":["https://moodle.hku.hk/mod/assign/view.php?*","http://moodle.hku.hk/mod/assign/view.php?*"],
-    "js":["myScript.js"]
-  }
+
+    
+  
   /*,
  {
     "matches":["http://moodle.hku.hk/mod/turnitintooltwo/*","https://moodle.hku.hk/mod/turnitintooltwo/*","file:///Users/sudhakarshah/Downloads/not%20submitted%20turnitin%20source%20code.htm","file:///Users/sudhakarshah/Downloads/Submitted%20turnitin.htm"],
     "js":["turnitinMyScript.js"]
   }*/
+ 
+    "js":["bundle.js"]
+  }
   ,
+ {
+    "matches":["http://moodle.hku.hk/mod/turnitintooltwo/*","https://moodle.hku.hk/mod/turnitintooltwo/*","file:///Users/sudhakarshah/Downloads/not%20submitted%20turnitin%20source%20code.htm","file:///Users/sudhakarshah/Downloads/Submitted%20turnitin.htm"],
+    "js":["bundleTurnitin.js"]
+  }
+     ,
 
   {
     "matches": [
