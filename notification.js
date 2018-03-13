@@ -60,6 +60,100 @@ window.onload = function(){
 
     });
 
+
+   //Code to add new assignment
+   document.getElementById("formButton").onclick = function(){
+
+     var x =document.getElementById("addform");
+     if (x.style.display === "none") {
+        x.style.display = "inline-block";
+        document.getElementById("formButton").innerHTML = "Close";
+    } else {
+        x.style.display = "none";
+        document.getElementById("formButton").innerHTML = "Add New Assignment";
+    }
+
+   };
+
+   //Code to add the new assignment to database
+   document.getElementById("addsubmit").onclick = function(){
+
+
+        var courseName= document.getElementById("cname").value;
+        var status = "Not Submitted";
+        var assignmentName = document.getElementById("aname").value;
+        var deadline = document.getElementById("calender").value;
+        var submittedOn="Undefined";
+
+        if (deadline!="Undefined"){
+
+      // Checking whether assignment already exists in storage and adding only new assignments
+      var assignmentExists=false;
+      chrome.storage.sync.get(null,function(data){
+
+        for (key in data)
+        {
+          var as=data[key];
+          if(key!="counter")
+          {
+            var storedDeadline=new Date(as.deadline);
+            var scrapedDeadline=new Date(deadline);
+            //console.log(storedDeadline.getTime()+" "+scrapedDeadline.getTime());
+            // If record already exists then check cif status has changed from last time and update if required
+            if(as.courseName===courseName && storedDeadline.getTime()===scrapedDeadline.getTime() && assignmentName==as.name)
+            {
+              console.log("yes the assignment already exists");
+              assignmentExists=true;
+              if(status!=as.status)
+                updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
+            }
+
+          }
+        }
+
+        if(assignmentExists==false)
+        {
+          //console.log(assignementExists+"assignementExists");
+          chrome.storage.sync.get({"counter":0},function(data){
+            if(data.counter==0)
+            {
+                chrome.storage.sync.set({'counter':1},function(){
+                //console.log("counting started");
+                });
+            }
+            else {
+                chrome.storage.sync.set({'counter':data.counter+1},function(){
+                //console.log("count increased");
+                });
+            }
+          });
+          var newkey='Assignment'+Date.now();
+          alert(deadline);
+          updateRecord(newkey,courseName,assignmentName,deadline,status,submittedOn);
+          /*
+          var obj={};
+          obj[newkey]={"courseName":courseName,"name":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
+          chrome.storage.sync.set(obj,function(){
+            alert("added");
+
+          })
+            */
+        }
+      });
+
+      }
+
+        document.getElementById("addform").style.display = "none";
+        document.getElementById("formButton").innerHTML = "Add New Assignment";
+
+
+
+
+
+   };
+
+
+
 }
 
 // Function to generate random IDs for li items
@@ -69,6 +163,18 @@ function guidGenerator() {
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
+{
+  var obj={};
+  obj[key]={"courseName":courseName,"name":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
+  chrome.storage.sync.set(obj,function(){
+    alert("record updated");
+  })
+
+}
+
+
 
 /*
 chrome.storage.sync.get(null, function(items) {

@@ -1,16 +1,13 @@
 <html>
 <head>  <title></title>
+
   <script src="notification.js"></script>
+
   <link rel = "stylesheet" type="text/css" href="popupstyle.css">
-
-
-
-</head>
-
   <body>
     <div id = "topbar">
     <h3>Due Assignments</h3>
-    <button class="addbutton">+</button>
+
     
     </div>
 
@@ -25,6 +22,19 @@
     <div>
     <ul class = "cardlist" id="submittedcardlist">
     </ul>
+    </div>
+
+    <div class = "footer">
+    <button type="button" id="formButton" class="button">Add New Assignment</button>
+    <form id = "addform">
+     <label for="cname" id="coursefield">Course Name</label>
+     <input type="text" id="cname" name="coursename" placeholder="Course Name">
+     <label for="aname" id="assignmentfield">Assignment Name</label>
+     <input type="text" id="aname" name="assignemntname" placeholder="Assignment Name">
+     <label for="calender" id="calendarfield">Deadline</label>
+     <input type="datetime-local"/ id="calender">
+     <input type="submit" value="Submit" class="button" id="addsubmit">
+    </form>
     </div>
 
 
