@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
+
 body
 {
   min-height : 800px ;
   min-width : 300px;
   user-select : none;
+  max-width : 100%;
+  overflow-x: hidden;
 }
 
 h3
@@ -21,6 +24,7 @@ ul
 	list-style-type: none;
 	
 	text-align: center;
+  margin-left: -60px;
     
    
 }
@@ -29,13 +33,14 @@ ul
   background: #fff;
   border-radius: 2px;
   
-  height: 90px;
+  height: 50px;
   margin: 1rem;
   position: relative;
-  width: 600px;
+  width: 450px;
   align-content: left;
   padding: 20px;
   text-align: left;
+  margin-right: 30px;
   
 
 }
@@ -62,7 +67,7 @@ ul
 {
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
-	font-size: 18px;
+	font-size: 15px;
 	margin-bottom : 100px;
 
 }
@@ -72,7 +77,7 @@ ul
 
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
-	font-size: 13px;
+	font-size: 12px;
 	margin-top: 60px;
 
 }
@@ -82,10 +87,26 @@ ul
 
   color: white;
   font-family: 'Source Sans Pro' , sans-serif;
-  font-size: 50px;
+  font-size: 20px;
   margin-bottom : 100px;
   font-weight: 30%;
 
+}
 
 
+#topbar
+{
+  position: relative;
+}
+
+.addbutton
+{
+  position: absolute;
+  right: 30;
+  border-radius: 50%;
+  border: 1px ;
+  height:25px;
+  width:25px;
+  background-color: #57c4d0;
+  text-decoration-color: white;
 }
