@@ -1,11 +1,16 @@
 
 window.onload = function(){
 
+
+        
    chrome.storage.sync.get(null,function(assignments){
       var s="";
       var diffdays = 0;
       var today = new Date();
       var oneDay = 24*60*60*1000;
+      var diffhours = 0;
+      var daystyle = "Days";
+      var hourstyle = "Hours";
 
       for (key in assignments)
       {
@@ -19,8 +24,14 @@ window.onload = function(){
             {var id = guidGenerator();
             var deadlinedate = new Date(as.deadline);
             diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
+            diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
+            if(diffdays-1 <= 1)
+              daystyle = "Day";
+            if(diffhours <= 1)
+              hourstyle = "Hour";
 
-            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + as.deadline+ "</span>"+ "<br><span class='cardDays'>" + diffdays + "</span>" + "<span class = 'cardtitle'>" + "   "  + " Days Left" + "</span>" +   "</li>";
+            
+            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + as.deadline+ "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
 
             var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
