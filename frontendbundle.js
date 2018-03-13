@@ -1,8 +1,8 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
-
+var update= require("./update");
 window.onload = function(){
 
-  var update= require("./update");
+  
         
    chrome.storage.sync.get(null,function(assignments){
       var s="";
@@ -23,6 +23,7 @@ window.onload = function(){
           //to sort the assignment according to submission status
           if(as.status!="Submitted")
             {var id = guidGenerator();
+             var buttonid = key;
             var deadlinedate = new Date(as.deadline);
             diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
             diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
@@ -31,13 +32,24 @@ window.onload = function(){
             if(diffhours <= 1)
               hourstyle = "Hour";
 
-            
-            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
+             
+            var html = "<li><div class='card coursecard' id=" + "'" + id + "'" + ">"  + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" + "<br><button class='markbutton' id=" + "'" + buttonid + "'" +   ">Mark As Complete</button></div></li>" ;
+            console.log(html);
+            //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
-
+            
+            
             var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
+            document.getElementById(buttonid).style.backgroundColor = random_color;
+
+            document.getElementById(buttonid).addEventListener('click', function(){ 
+              console.log("hiii");
+
+            /*completecard(this.buttonid);*/ });
+
+
            
             }
 
@@ -97,7 +109,12 @@ window.onload = function(){
 
 
 
+
+
+
+
 }
+  
 
 // Function to generate random IDs for li items
 function guidGenerator() {
@@ -106,6 +123,20 @@ function guidGenerator() {
     };
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
+
+
+//function to update the completed card
+function completecard(key)
+{
+  chrome.storage.sync.get(null,function(assignments){
+    var as=assignments[key];
+    var tempdate = new Date();
+    var submittedOn = tempdate.toString();
+    update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
+  });
+
+}
+
 
 
 /*
@@ -166,7 +197,7 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
           console.log("yes the assignment already exists");
           assignmentExists=true;
           if(status!=as.status)
-            updateRecord(key,courseName,assignmentName,as.deadline,status,submittedOn);
+            updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
         }
 
       }
