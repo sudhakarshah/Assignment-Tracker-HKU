@@ -27,7 +27,7 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
           console.log("yes the assignment already exists");
           assignmentExists=true;
           if(status!=as.status)
-            updateRecord(key,courseName,assignmentName,as.deadline,status,submittedOn);
+            updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
         }
 
       }
