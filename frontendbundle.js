@@ -32,9 +32,10 @@ window.onload = function(){
               hourstyle = "Hour";
 
             
-            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
+            var html = "<li><div class='card coursecard' id=" + "'" + id + "'" + ">"  + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" + "<button onclick= 'removecard()'> Mark As Complete</button></div></li>" ;
+            //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
-
+            
             var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
@@ -166,7 +167,7 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
           console.log("yes the assignment already exists");
           assignmentExists=true;
           if(status!=as.status)
-            updateRecord(key,courseName,assignmentName,as.deadline,status,submittedOn);
+            updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
         }
 
       }
