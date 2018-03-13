@@ -1,0 +1,22 @@
+{
+  "name": "assignment_tracker",
+  "version": "1.0.0",
+  "description": "app",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhimanyu891998/Assignment-Tracker-HKU.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhimanyu891998/Assignment-Tracker-HKU/issues"
+  },
+  "homepage": "https://github.com/abhimanyu891998/Assignment-Tracker-HKU#readme",
+  "dependencies": {
+    "browserify": "^16.1.1"
+  }
+}
