@@ -15,20 +15,45 @@ window.onload = function(){
         if(key!="counter")
         {
           s= as.courseName+" "+as.deadline+" "+as.status+"\n";
+          var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
+          var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
+          var assignmentName = as.assignmentName;
           //to sort the assignment according to submission status
           if(as.status!="Submitted")
           {
             var id = guidGenerator();
             var buttonid = key;
+            var clockid = "clockdiv" + key.toString();
             var deadlinedate = new Date(as.deadline);
-            diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
+            var deadlinedatenum = deadlinedate.getDate();
+            var deadlinemonth = deadlinedate.getMonth();
+            var deadlineyear = deadlinedate.getFullYear();
+            var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
+
+       
+           /* diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
             diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
             if(diffdays-1 <= 1)
               daystyle = "Day";
             if(diffhours <= 1)
-              hourstyle = "Hour";
+              hourstyle = "Hour";*/
 
-            var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + as.courseName + '</span><br><span class="cardBody">Due on:' + deadlinedate + '</span><br><span class="cardDays">' + (diffdays-1) + '</span> <span class = "cardtitle"> '+ daystyle +' '+ (diffhours-1) + ' ' + hourstyle + ' '+ 'Left </span><br><button class="markbutton" id="'+buttonid+'"> "Mark As Complete"'+'</button></div></li>';
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+            var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
             console.log(html);
             //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
@@ -39,14 +64,49 @@ window.onload = function(){
             /*document.getElementById(buttonid).addEventListener('click', function(){
             completecard(this.buttonid); });
             */
+
+            //function to initialize clock
+            var clocks = document.getElementsByClassName("clockdiv");
+            for(var i=0 ; i<clocks.length ; i++)
+            { var keydate = clocks[i].id.substring(8);
+              var dateobject = new Date(assignments[keydate].deadline);
+              initializeClock(clocks[i].id, dateobject);}
+
+            function initializeClock(id, endtime) {
+            var clock = document.getElementById(id);
+            var daysSpan = clock.querySelector('.days');
+            var hoursSpan = clock.querySelector('.hours');
+            var minutesSpan = clock.querySelector('.minutes');
+            var secondsSpan = clock.querySelector('.seconds');
+
+            function updateClock() {
+              var t = getTimeRemaining(endtime);
+
+              daysSpan.innerHTML = t.days;
+              hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+              minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+              secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+              if (t.total <= 0) {
+                clearInterval(timeinterval);
+              }
+            }
+
+            updateClock();
+            var timeinterval = setInterval(updateClock, 1000);
+          }
           }
           else
-          {
+          { var submittedOnDate = new Date(as.submittedOn);
+            var submittedOnDateNum = submittedOnDate.getDate();
+            var submittedOnMonth = submittedOnDate.getMonth();
+            var submittedOnYear = submittedOnDate.getFullYear();
+            var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
             var id = guidGenerator();
-            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Completed on:" + "  " +as.submittedOn + "</span>"+"</span>" +"</li>";
+            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
             document.getElementById("submittedcardlist").innerHTML+= html;
 
-            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
+            var colors = ['#4A148C', '#B71C1C', '#880E4F','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#DD2C00', '#263238'];
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
           }
@@ -98,6 +158,10 @@ window.onload = function(){
            buttons[i].addEventListener('click', function(){submitAssignment(this.id)}, false);
          }
 
+        
+
+
+
    });
  }
 
@@ -130,6 +194,23 @@ function completecard(key)
   });
 
 }
+
+function getTimeRemaining(endtime) {
+  var t = Date.parse(endtime) - Date.parse(new Date());
+  var seconds = Math.floor((t / 1000) % 60);
+  var minutes = Math.floor((t / 1000 / 60) % 60);
+  var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
+  var days = Math.floor(t / (1000 * 60 * 60 * 24));
+  return {
+    'total': t,
+    'days': days,
+    'hours': hours,
+    'minutes': minutes,
+    'seconds': seconds
+  };
+}
+
+
 
 
 
