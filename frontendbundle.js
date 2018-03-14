@@ -19,6 +19,7 @@ window.onload = function(){
           var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
           var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
           var assignmentName = as.assignmentName;
+          var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
           //to sort the assignment according to submission status
           if(as.status!="Submitted")
           {
@@ -31,7 +32,7 @@ window.onload = function(){
             var deadlineyear = deadlinedate.getFullYear();
             var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
-       
+          
            /* diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
             diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
             if(diffdays-1 <= 1)
@@ -58,7 +59,7 @@ window.onload = function(){
             console.log(html);
             //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
-            var colors = ['#7b1fa2', '#e53935', '#c2185b','#0d47a1', '#512da8', '#004d40' , '#2e7d32' , '#1b5e20'];
+            
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
             document.getElementById(buttonid).style.backgroundColor = random_color;
@@ -82,7 +83,10 @@ window.onload = function(){
 
             function updateClock() {
               var t = getTimeRemaining(endtime);
-
+              if(t.days<2)
+              {
+                document.getElementById(id).style.color = "#F44336";
+              }
               daysSpan.innerHTML = t.days;
               hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
               minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
@@ -97,6 +101,9 @@ window.onload = function(){
             var timeinterval = setInterval(updateClock, 1000);
           }
           }
+
+
+
           else
           { var submittedOnDate = new Date(as.submittedOn);
             var submittedOnDateNum = submittedOnDate.getDate();
@@ -107,7 +114,7 @@ window.onload = function(){
             var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
             document.getElementById("submittedcardlist").innerHTML+= html;
 
-            var colors = ['#4A148C', '#B71C1C', '#880E4F','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#DD2C00', '#263238'];
+            
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
           }
