@@ -32,7 +32,9 @@ if (deadline!="Undefined"){
 function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 {
   var obj={};
-  obj[key]={"courseName":courseName,"name":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
+
+  obj[key]={"courseName":courseName,"assignmentName":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
+  console.log(assignmentName+" an adding to db");
   chrome.storage.sync.set(obj,function(){
     alert("record updated");
   })
@@ -41,6 +43,7 @@ function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 
 function update(courseName,assignmentName,deadline,status,submittedOn)
 {  // Checking whether assignment already exists in storage and adding only new assignments
+  console.log(courseName+" "+assignmentName+ "d"+deadline);
   var assignmentExists=false;
   chrome.storage.sync.get(null,function(data){
 
@@ -53,12 +56,12 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
         var scrapedDeadline=new Date(deadline);
         //console.log(storedDeadline.getTime()+" "+scrapedDeadline.getTime());
         // If record already exists then check cif status has changed from last time and update if required
-        if(as.courseName===courseName && assignmentName==as.name)
+        if(as.courseName===courseName && assignmentName==as.assignmentName)
         {
           console.log("yes the assignment already exists");
           assignmentExists=true;
-          if(status!=as.status)
-            updateRecord(key,courseName,assignmentName,as.deadline,status,submittedOn);
+          if(status!=as.status || submittedOn!=as.submittedOn)
+            updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
         }
 
       }
@@ -74,7 +77,8 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
             //console.log("counting started");
             });
         }
-        else {
+        else
+        {
             chrome.storage.sync.set({'counter':data.counter+1},function(){
             //console.log("count increased");
             });
