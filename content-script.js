@@ -22,7 +22,7 @@ document.body.appendChild(iframe);
 function toggle(){
     if(iframe.style.width == "0px"){
     	iframe.src = chrome.extension.getURL("popup.html")
-        iframe.style.width="450px";
+        iframe.style.width="350px";
     }
     else{
         iframe.style.width="0px";
