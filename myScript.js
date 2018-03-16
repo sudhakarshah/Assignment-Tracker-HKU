@@ -4,10 +4,8 @@ var deadline="Undefined";
 var courseName="Undefined";
 var status="Not Submitted";
 var submittedOn="Undefined";
-var assignmentName="Undefined";
-
+var assignmentName="Undefined"
 var update=require('./update');
-
 
 // Finding Deadline of the assignement
 for (var i=0;i<a.length;i++)
@@ -38,6 +36,6 @@ console.log(courseName);
 assignmentName=document.querySelectorAll('[itemprop="title"]')[3].innerText;
 console.log(assignmentName);
 
-if (deadline!="Undefined" && status="Not Submitted"){
+if (deadline!="Undefined" && status=="Not Submitted"){
   update(courseName,assignmentName,deadline,status,submittedOn);
 }
