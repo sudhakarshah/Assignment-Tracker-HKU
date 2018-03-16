@@ -1,3 +1,4 @@
+var forEachAsync = require('forEachAsync').forEachAsync;
 var update= require("./update");
 
 window.onload = function(){
@@ -11,7 +12,7 @@ window.onload = function(){
       var hourstyle = "Hours";
 
       for (key in assignments)
-      { 
+      {
         var as=assignments[key];
         s=as.courseName+" "+as.deadline+" "+as.status+"\n";
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
@@ -20,7 +21,7 @@ window.onload = function(){
         var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
-        { 
+        {
           document.getElementById("defaultduemessage").style.display = "none";
           var id = guidGenerator();
           var buttonid = key;
@@ -70,7 +71,7 @@ window.onload = function(){
           }
         }
         else
-        { 
+        {
           document.getElementById("defaultcompletemessage").style.display = "none";
           var submittedOnDate = new Date(as.submittedOn);
           var submittedOnDateNum = submittedOnDate.getDate();
@@ -104,7 +105,7 @@ window.onload = function(){
          document.getElementById("addsubmit").onclick = function(){
             console.log("in submit");
             if(validateForm()==true)
-             { 
+             {
 
               var courseName= document.getElementById("cname").value;
               var status = "Not Submitted";
@@ -131,6 +132,8 @@ window.onload = function(){
 
 function submitAssignment(id){
   completecard(id);
+
+
 }
 
 // Function to generate random IDs for li items
@@ -145,15 +148,16 @@ function guidGenerator() {
 //function to update the completed card
 function completecard(key)
 {
-  chrome.storage.sync.get(null,function(assignments){
-    var as=assignments[key];
-    var presentDate = new Date();
-    var submittedOn = presentDate.toString();
-    console.log("cn "+as.courseName+" an "+as.assignmentName);
-    update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
-    window.location.reload();   // reloading page after db updated
-  });
 
+    chrome.storage.sync.get(null,function(assignments){
+      var as=assignments[key];
+      var presentDate = new Date();
+      var submittedOn = presentDate.toString();
+      update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
+      console.log("update done");
+    })
+    console.log("reloading being done");
+    window.location.reload();
 }
 
 function getTimeRemaining(endtime) {
