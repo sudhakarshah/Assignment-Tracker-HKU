@@ -32,7 +32,7 @@ window.onload = function(){
             var deadlineyear = deadlinedate.getFullYear();
             var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
-          
+
            /* diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
             diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
             if(diffdays-1 <= 1)
@@ -42,24 +42,11 @@ window.onload = function(){
 
 
 
-
-
-
-            
-
-
-
-
-
-
-
-
-
             var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
             console.log(html);
             //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
             document.getElementById("duecardlist").innerHTML+= html;
-            
+
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
             document.getElementById(buttonid).style.backgroundColor = random_color;
@@ -114,7 +101,7 @@ window.onload = function(){
             var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
             document.getElementById("submittedcardlist").innerHTML+= html;
 
-            
+
             var random_color = colors[Math.floor(Math.random() * colors.length)];
             document.getElementById(id).style.backgroundColor = random_color;
           }
@@ -126,9 +113,13 @@ window.onload = function(){
       }
     });
 
+    //var currentDate=new Date();
+    //document.getElementById("calender").value= currentDate.getDate().toString()+'-'currentDate.getFullYear().toString()+'-'+currentDate.getYear().toString()
+
     // after everything is rendered
    setTimeout(function(){
      // Everything will have rendered here
+
 
          document.getElementById("formButton").onclick = function(){
            var x =document.getElementById("addform");
@@ -149,7 +140,8 @@ window.onload = function(){
               var courseName= document.getElementById("cname").value;
               var status = "Not Submitted";
               var assignmentName = document.getElementById("aname").value;
-              var deadline = document.getElementById("calender").value;
+              var deadline = document.getElementById("calender").value.toString();
+              console.log(deadline+"llllllllll");
               var submittedOn="Undefined";
 
               if (deadline!="Undefined"){
@@ -166,7 +158,7 @@ window.onload = function(){
            buttons[i].addEventListener('click', function(){submitAssignment(this.id)}, false);
          }
 
-        
+
 
 
 

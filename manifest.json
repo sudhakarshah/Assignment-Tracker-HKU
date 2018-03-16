@@ -20,7 +20,7 @@
   ,
  {
     "matches":["http://moodle.hku.hk/mod/turnitintooltwo/*","https://moodle.hku.hk/mod/turnitintooltwo/*","file:///Users/sudhakarshah/Downloads/not%20submitted%20turnitin%20source%20code.htm","file:///Users/sudhakarshah/Downloads/Submitted%20turnitin.htm"],
-    "js":["bundleTurnitin.js"]
+    "js":["Turnitinbundle.js"]
   }
 
     ,
@@ -32,7 +32,7 @@
         ],
     "js": ["content-script.js"]
   }
-  
+
 ],
 
 "web_accessible_resources": ["popup.html"],
