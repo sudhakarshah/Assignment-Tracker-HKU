@@ -198,3 +198,13 @@ input[type="checkbox"]:checked + label span {
   padding-right: 5px;
   font-size: 11px;
 }
+
+#defaultdisplaymessage
+{
+  display: inline-block;
+}
+
+#defaultcompletemessage
+{
+  display: inline-block;
+}
