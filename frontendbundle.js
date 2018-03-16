@@ -11,130 +11,92 @@ window.onload = function(){
       var daystyle = "Days";
       var hourstyle = "Hours";
 
-      for (key in assignments){
+      for (key in assignments)
+      {
         var as=assignments[key];
-        if(key!="counter")
+        s=as.courseName+" "+as.deadline+" "+as.status+"\n";
+        var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
+        var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
+        var assignmentName = as.assignmentName;
+        var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
+        //to sort the assignment according to submission status
+        if(as.status!="Submitted")
         {
-          s= as.courseName+" "+as.deadline+" "+as.status+"\n";
-          var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
-          var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
-          var assignmentName = as.assignmentName;
-          var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
-          //to sort the assignment according to submission status
-          if(as.status!="Submitted")
-          {
-            var id = guidGenerator();
-            var buttonid = key;
-            var clockid = "clockdiv" + key.toString();
-            var deadlinedate = new Date(as.deadline);
-            var deadlinedatenum = deadlinedate.getDate();
-            var deadlinemonth = deadlinedate.getMonth();
-            var deadlineyear = deadlinedate.getFullYear();
-            var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
+          var id = guidGenerator();
+          var buttonid = key;
+          var clockid = "clockdiv" + key.toString();
+          var deadlinedate = new Date(as.deadline);
+          var deadlinedatenum = deadlinedate.getDate();
+          var deadlinemonth = deadlinedate.getMonth();
+          var deadlineyear = deadlinedate.getFullYear();
+          var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
+          var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
 
-           /* diffdays = Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(oneDay)));
-            diffhours = (Math.round(Math.abs((deadlinedate.getTime() - today.getTime())/(60*60*1000))))- ((diffdays-1)*24);
-            if(diffdays-1 <= 1)
-              daystyle = "Day";
-            if(diffhours <= 1)
-              hourstyle = "Hour";*/
+          document.getElementById("duecardlist").innerHTML+= html;
+          var random_color = colors[Math.floor(Math.random() * colors.length)];
+          document.getElementById(id).style.backgroundColor = random_color;
+          document.getElementById(buttonid).style.backgroundColor = random_color;
 
+          //function to initialize clock
+          var clocks = document.getElementsByClassName("clockdiv");
+          for(var i=0 ; i<clocks.length ; i++){
+            var keydate = clocks[i].id.substring(8);
+            var dateobject = new Date(assignments[keydate].deadline);
+            initializeClock(clocks[i].id, dateobject);
+          }
 
-
-            var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
-            console.log(html);
-            //var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  as.courseName + "</span>" + "<br><span class='cardBody'>" + "Due on:" + "  " + deadlinedate + "</span>"+ "<br><span class='cardDays'>" + (diffdays-1) + "</span>" + "  "+ "<span class = 'cardtitle'>" + "   " + daystyle + "  " + (diffhours-1) + " " + hourstyle + " "  + "Left"  + "</span>" +   "</li>";
-            document.getElementById("duecardlist").innerHTML+= html;
-
-            var random_color = colors[Math.floor(Math.random() * colors.length)];
-            document.getElementById(id).style.backgroundColor = random_color;
-            document.getElementById(buttonid).style.backgroundColor = random_color;
-            /*document.getElementById(buttonid).addEventListener('click', function(){
-            completecard(this.buttonid); });
-            */
-
-            //function to initialize clock
-            var clocks = document.getElementsByClassName("clockdiv");
-            for(var i=0 ; i<clocks.length ; i++)
-            { var keydate = clocks[i].id.substring(8);
-              var dateobject = new Date(assignments[keydate].deadline);
-              initializeClock(clocks[i].id, dateobject);}
-
-            function initializeClock(id, endtime) {
+          function initializeClock(id, endtime) {
             var clock = document.getElementById(id);
             var daysSpan = clock.querySelector('.days');
             var hoursSpan = clock.querySelector('.hours');
             var minutesSpan = clock.querySelector('.minutes');
             var secondsSpan = clock.querySelector('.seconds');
 
+
             function updateClock() {
               var t = getTimeRemaining(endtime);
-              if(t.days<2)
-              {
+              if(t.days<2){
                 document.getElementById(id).style.color = "#F44336";
               }
               daysSpan.innerHTML = t.days;
               hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
               minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
               secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
-              if (t.total <= 0) {
-                clearInterval(timeinterval);
-              }
+              if (t.total <= 0){clearInterval(timeinterval);}
             }
-
             updateClock();
             var timeinterval = setInterval(updateClock, 1000);
           }
-          }
-
-
-
-          else
-          { var submittedOnDate = new Date(as.submittedOn);
-            var submittedOnDateNum = submittedOnDate.getDate();
-            var submittedOnMonth = submittedOnDate.getMonth();
-            var submittedOnYear = submittedOnDate.getFullYear();
-            var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
-            var id = guidGenerator();
-            var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
-            document.getElementById("submittedcardlist").innerHTML+= html;
-
-
-            var random_color = colors[Math.floor(Math.random() * colors.length)];
-            document.getElementById(id).style.backgroundColor = random_color;
-          }
         }
         else
-        {
-          s=s+as+" count"+'\n';
+        { var submittedOnDate = new Date(as.submittedOn);
+          var submittedOnDateNum = submittedOnDate.getDate();
+          var submittedOnMonth = submittedOnDate.getMonth();
+          var submittedOnYear = submittedOnDate.getFullYear();
+          var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
+          var id = guidGenerator();
+          var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
+          document.getElementById("submittedcardlist").innerHTML+= html;
+          var random_color = colors[Math.floor(Math.random() * colors.length)];
+          document.getElementById(id).style.backgroundColor = random_color;
         }
       }
-    });
-
-    //var currentDate=new Date();
-    //document.getElementById("calender").value= currentDate.getDate().toString()+'-'currentDate.getFullYear().toString()+'-'+currentDate.getYear().toString()
-
+    })
     // after everything is rendered
    setTimeout(function(){
-     // Everything will have rendered here
-
 
          document.getElementById("formButton").onclick = function(){
            var x =document.getElementById("addform");
-           if (x.style.display === "none")
-           {
+           if (x.style.display === "none"){
              x.style.display = "inline-block";
              document.getElementById("formButton").innerHTML = "Close";
            }
-           else
-           {
+           else{
              x.style.display = "none";
              document.getElementById("formButton").innerHTML = "Add New Assignment";
            }
          }
-
          //Code to add the new assignment to database
          document.getElementById("addsubmit").onclick = function(){
               var courseName= document.getElementById("cname").value;
@@ -150,33 +112,23 @@ window.onload = function(){
               document.getElementById("addform").style.display = "none";
               document.getElementById("formButton").innerHTML = "Add New Assignment";
          };
-
          // creating event listners for all the assignment cards
          var buttons=document.getElementsByClassName('markbutton');
-         for (var i=0;i<buttons.length;i++)
-         {
+         for (var i=0;i<buttons.length;i++){
            buttons[i].addEventListener('click', function(){submitAssignment(this.id)}, false);
          }
-
-
-
-
-
    });
  }
 
-
-
 function submitAssignment(id){
-  console.log(id+" has been clciked");
   completecard(id);
 }
 
 // Function to generate random IDs for li items
 function guidGenerator() {
-    var S4 = function() {
+    var S4 = function(){
        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
-    };
+    }
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
@@ -210,32 +162,6 @@ function getTimeRemaining(endtime) {
   };
 }
 
-
-
-
-
-/*
-var options={
-  type:"list",
-  title:"Assignment Due",
-  message:"Your Assignment is due",
-  iconUrl:"icon.png",
-  items:[{title:"Assignment 1",message:"due"},
-  {title:"Assignment 2",message:"due"}]
-};
-
-chrome.notifications.create(options);
-
-chrome.notifications.onClicked.addListener(redirectWindow);
-function redirectWindow(){
-  alert("hihi");
-}
-
-function callback(){
-  console.log("popup done");
-};
-*/
-
 },{"./update":2}],2:[function(require,module,exports){
 function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 {
@@ -258,42 +184,21 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
     for (key in data)
     {
       var as=data[key];
-      if(key!="counter")
+      var storedDeadline=new Date(as.deadline);
+      var scrapedDeadline=new Date(deadline);
+      // If record already exists then check if status has changed from last time and update if required
+      if(as.courseName===courseName && assignmentName==as.assignmentName)
       {
-        var storedDeadline=new Date(as.deadline);
-        var scrapedDeadline=new Date(deadline);
-        //console.log(storedDeadline.getTime()+" "+scrapedDeadline.getTime());
-        // If record already exists then check cif status has changed from last time and update if required
-        if(as.courseName===courseName && assignmentName==as.assignmentName)
-        {
-          console.log("yes the assignment already exists");
-          assignmentExists=true;
-          if(status!=as.status || submittedOn!=as.submittedOn)
-            updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
-        }
-
+        console.log("yes the assignment already exists");
+        assignmentExists=true;
+        if(status!=as.status || submittedOn!=as.submittedOn)
+          updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
       }
     }
 
     if(assignmentExists==false)
     {
-      //console.log(assignementExists+"assignementExists");
-      chrome.storage.sync.get({"counter":0},function(data){
-        if(data.counter==0)
-        {
-            chrome.storage.sync.set({'counter':1},function(){
-            //console.log("counting started");
-            });
-        }
-        else
-        {
-            chrome.storage.sync.set({'counter':data.counter+1},function(){
-            //console.log("count increased");
-            });
-        }
-      });
       var newkey='Assignment'+Date.now();
-      alert(deadline);
       updateRecord(newkey,courseName,assignmentName,deadline,status,submittedOn);
     }
   });

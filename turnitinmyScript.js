@@ -20,9 +20,6 @@ console.log(courseName);
 assignmentName=document.querySelectorAll('[itemprop="title"]')[3].innerText;
 console.log(assignmentName);
 
-if (deadline!="Undefined" && status="Not Submitted"){
+if (deadline!="Undefined" && status=="Not Submitted"){
   update(courseName,assignmentName,deadline,status,submittedOn);
 }
-
-//chrome.runtime.sendMessage(deadline);
-//chrome.runtime.sendMessage("hello");

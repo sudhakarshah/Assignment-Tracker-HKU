@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
-
 body
 {
   min-height : 800px ;
@@ -16,24 +15,19 @@ h3
 	border-bottom: 4px solid  #57c4d0;
   	display: inline;
   	font-family: 'Source Sans Pro' , sans-serif;
-	
 }
 
 ul
 {
 	list-style-type: none;
-	
 	text-align: center;
   margin-left: -60px;
-    
-   
 }
 
 .card {
   background: #fff;
   border-radius: 2px;
   display: inline-block;
-  
   max-height: 200px;
   margin: 1rem;
   position: relative;
@@ -43,7 +37,6 @@ ul
   text-align: left;
   margin-right: 30px;
   padding-top: 5px;
-
 }
 
 .coursecard {
@@ -55,54 +48,42 @@ ul
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-.cardtext
-{
+.cardtext{
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
 	text-align: left;
-
-
 }
 
-.cardTitle
-{
+.cardTitle{
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
 	font-size: 15px;
 	margin-bottom : 100px;
   font-weight: bold;
-
 }
 
-.cardBody
-{
-
+.cardBody{
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
 	font-size: 12px;
 	margin-top: 60px;
-
 }
 
-.cardDays
-{
-
+.cardDays{
   color: white;
   font-family: 'Source Sans Pro' , sans-serif;
   font-size: 20px;
   margin-bottom : 100px;
   font-weight: 30%;
-
 }
 
 
-#topbar
-{
+#topbar{
   position: relative;
 }
 
 
-.footer {
+.footer{
     position: fixed;
     left: 0;
     bottom: 5;
@@ -125,8 +106,6 @@ ul
     font-family: 'Source Sans Pro' , sans-serif;
     font-weight: bold;
     margin: auto;
-    
-  
 }
 
 input[type=text], select {
@@ -159,8 +138,7 @@ input[type=submit] {
     display: none;
 }
 
-.markbutton
-{
+.markbutton{
   position: relative;
   margin-top: 7px;
   border: solid white;
