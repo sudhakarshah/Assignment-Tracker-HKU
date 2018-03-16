@@ -12,7 +12,7 @@ window.onload = function(){
       var hourstyle = "Hours";
 
       for (key in assignments)
-      {
+      { 
         var as=assignments[key];
         s=as.courseName+" "+as.deadline+" "+as.status+"\n";
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
@@ -21,7 +21,8 @@ window.onload = function(){
         var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
-        {
+        { 
+          document.getElementById("defaultduemessage").style.display = "none";
           var id = guidGenerator();
           var buttonid = key;
           var clockid = "clockdiv" + key.toString();
@@ -70,7 +71,9 @@ window.onload = function(){
           }
         }
         else
-        { var submittedOnDate = new Date(as.submittedOn);
+        { 
+          document.getElementById("defaultcompletemessage").style.display = "none";
+          var submittedOnDate = new Date(as.submittedOn);
           var submittedOnDateNum = submittedOnDate.getDate();
           var submittedOnMonth = submittedOnDate.getMonth();
           var submittedOnYear = submittedOnDate.getFullYear();
@@ -97,8 +100,13 @@ window.onload = function(){
              document.getElementById("formButton").innerHTML = "Add New Assignment";
            }
          }
+
          //Code to add the new assignment to database
          document.getElementById("addsubmit").onclick = function(){
+            console.log("in submit");
+            if(validateForm()==true)
+             { 
+
               var courseName= document.getElementById("cname").value;
               var status = "Not Submitted";
               var assignmentName = document.getElementById("aname").value;
@@ -111,6 +119,8 @@ window.onload = function(){
               }
               document.getElementById("addform").style.display = "none";
               document.getElementById("formButton").innerHTML = "Add New Assignment";
+
+            }
          };
          // creating event listners for all the assignment cards
          var buttons=document.getElementsByClassName('markbutton');
@@ -162,6 +172,16 @@ function getTimeRemaining(endtime) {
   };
 }
 
+
+function validateForm() {
+    console.log("checkingggg");
+    var x = document.forms["formadd"]["assignmentname"].value;
+    if (x == "") {
+        alert("Assignment name must be filled out");
+        return false;
+    }
+    return true;
+}
 },{"./update":2}],2:[function(require,module,exports){
 function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 {
