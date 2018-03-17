@@ -57,12 +57,13 @@ window.onload = function(){
         var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
         var assignmentName = as.assignmentName;
         var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
+        var buttonid = key;
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
         {
           document.getElementById("defaultduemessage").style.display = "none";
           var id = guidGenerator();
-          var buttonid = key;
+
           var clockid = "clockdiv" + key.toString();
           var deadlinedate = new Date(as.deadline);
           var deadlinedatenum = deadlinedate.getDate();
@@ -117,7 +118,7 @@ window.onload = function(){
           var submittedOnYear = submittedOnDate.getFullYear();
           var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
           var id = guidGenerator();
-          var html = "<li class='card coursecard'" + "id=" + "'" + id + "'" + ">" + "<span class='cardtext'>" + "<span class='cardtitle'>" +  coursecode + ' ' + '(' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + "</span><br><br><span class='cardBody'>" + "Completed on:" + "  " + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + "</span>"+"</span>" +"</li>";
+          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label></li>';
           document.getElementById("submittedcardlist").innerHTML+= html;
           var random_color = colors[Math.floor(Math.random() * colors.length)];
           document.getElementById(id).style.backgroundColor = random_color;
@@ -133,7 +134,8 @@ window.onload = function(){
              x.style.display = "inline-block";
              document.getElementById("formButton").innerHTML = "Close";
            }
-           else{
+           else
+           {
              x.style.display = "none";
              document.getElementById("formButton").innerHTML = "Add New Assignment";
            }
@@ -149,7 +151,6 @@ window.onload = function(){
               var status = "Not Submitted";
               var assignmentName = document.getElementById("aname").value;
               var deadline = document.getElementById("calender").value.toString();
-              console.log(deadline+"llllllllll");
               var submittedOn="Undefined";
 
               if (deadline!="Undefined"){
@@ -165,13 +166,26 @@ window.onload = function(){
          for (var i=0;i<buttons.length;i++){
            buttons[i].addEventListener('click', function(){submitAssignment(this.id)}, false);
          }
+
+         var delButtons=document.getElementsByClassName('deletebutton');
+         for(var i=0;i<delButtons.length;i++){
+           console.log("but"+i);
+           delButtons[i].addEventListener('click',function(){deleteAssignment(this.id)},false);
+         }
+
+
    });
  }
 
 function submitAssignment(id){
   completecard(id);
+}
 
-
+function deleteAssignment(id){
+  chrome.storage.sync.remove(id,function(){
+    console.log("assignment deleted");
+  })
+  setTimeout(function(){ window.location.reload(); },500);
 }
 
 // Function to generate random IDs for li items
@@ -186,22 +200,15 @@ function guidGenerator() {
 //function to update the completed card
 function completecard(key)
 {
-  forEachAsync([1],function (next,int,index, array){
+
     chrome.storage.sync.get(null,function(assignments){
       var as=assignments[key];
       var presentDate = new Date();
       var submittedOn = presentDate.toString();
-      console.log("cn "+as.courseName+" an "+as.assignmentName);
       update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
-      console.log("update done");
     })
-    console.log("for over");
-    next();
-  }).then(function(){
-    console.log("then doing");
-  //window.location.reload();
-  });  // reloading page after db updated
-
+    setTimeout(function(){ console.log("reloading being done");
+    window.location.reload(); }, 500);
 }
 
 function getTimeRemaining(endtime) {
@@ -221,10 +228,8 @@ function getTimeRemaining(endtime) {
 
 
 function validateForm() {
-    console.log("checkingggg");
     var x = document.forms["formadd"]["assignmentname"].value;
     if (x == "") {
-        alert("Assignment name must be filled out");
         return false;
     }
     return true;
@@ -236,16 +241,12 @@ function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
   var obj={};
 
   obj[key]={"courseName":courseName,"assignmentName":assignmentName,"deadline":deadline,"status":status,"submittedOn":submittedOn};
-  console.log(assignmentName+" an adding to db");
-  chrome.storage.sync.set(obj,function(){
-    alert("record updated");
-  })
+  chrome.storage.sync.set(obj,function(){})
 
 }
 
 function update(courseName,assignmentName,deadline,status,submittedOn)
 {  // Checking whether assignment already exists in storage and adding only new assignments
-  console.log(courseName+" "+assignmentName+ "d"+deadline);
   var assignmentExists=false;
   chrome.storage.sync.get(null,function(data){
 
@@ -257,7 +258,6 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
       // If record already exists then check if status has changed from last time and update if required
       if(as.courseName===courseName && assignmentName==as.assignmentName)
       {
-        console.log("yes the assignment already exists");
         assignmentExists=true;
         if(status!=as.status || submittedOn!=as.submittedOn)
           updateRecord(key,courseName,assignmentName,deadline,status,submittedOn);
