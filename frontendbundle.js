@@ -149,6 +149,9 @@ window.onload = function(){
            delButtons[i].addEventListener('click',function(){deleteAssignment(this.id)},false);
          }
 
+         // adding keyup event for assignment field
+         var assignmentfield=document.getElementById('aname');
+         assignmentfield.addEventListener('keyup',function(){ isFilled();},false);
 
    });
  }
@@ -158,10 +161,17 @@ function submitAssignment(id){
 }
 
 function deleteAssignment(id){
-  chrome.storage.sync.remove(id,function(){
-    console.log("assignment deleted");
-  })
+  chrome.storage.sync.remove(id,function(){})
   setTimeout(function(){ window.location.reload(); },500);
+}
+
+// enabling submit button
+function isFilled(){
+  var i=document.getElementById('aname');
+  if(i.value=="")
+      document.getElementById("addsubmit").disabled=true;
+  else
+      document.getElementById("addsubmit").disabled=false;
 }
 
 // Function to generate random IDs for li items
@@ -176,7 +186,6 @@ function guidGenerator() {
 //function to update the completed card
 function completecard(key)
 {
-
     chrome.storage.sync.get(null,function(assignments){
       var as=assignments[key];
       var presentDate = new Date();
@@ -207,15 +216,15 @@ function validateForm() {
     var x = document.forms["formadd"]["assignmentname"].value;
 
     if (x == "") {
-        var result = confirm("Assignment Name is required");
+        //var result = confirm("Assignment Name is required");
         if(result)
         { console.log(document.getElementById("addform").style.display);
           document.getElementById("addform").style.display="inline-block";
           console.log("in this");
           return false;
         }
-        
-       
+
+
     }
     return true;
 }
