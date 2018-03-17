@@ -191,8 +191,7 @@ function completecard(key)
       var submittedOn = presentDate.toString();
       update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
     })
-    setTimeout(function(){ console.log("reloading being done");
-    window.location.reload(); }, 500);
+    setTimeout(function(){ window.location.reload(); }, 500);
 }
 
 function getTimeRemaining(endtime) {
