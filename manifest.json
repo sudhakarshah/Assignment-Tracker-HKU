@@ -1,34 +1,24 @@
 {
   "manifest_version": 2,
-
   "name": "Assignment Reminder",
   "description": "Keeps a track of assignments for students at the University of Hong Kong ",
   "version": "1.0",
 
   "browser_action": {
-    "default_icon": "icon.png"
-  },
-  "background":{
-    "scripts":["background.js"]
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
   },
   "content_scripts":[
   {
     "matches":["https://moodle.hku.hk/mod/assign/view.php?*","http://moodle.hku.hk/mod/assign/view.php?*"],
     "js":["bundle.js"]
   }
-  /*,
+  ,
  {
     "matches":["http://moodle.hku.hk/mod/turnitintooltwo/*","https://moodle.hku.hk/mod/turnitintooltwo/*"],
     "js":["Turnitinbundle.js"]
-  }*/
-    ,
-  {
-    "matches": ["https://*/*","http://*/*"],
-    "js": ["content-script.js"]
   }
-],
-"web_accessible_resources": ["popup.html"],
-
+  ],
   "permissions": [
     "activeTab",
     "storage",

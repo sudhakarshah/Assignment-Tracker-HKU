@@ -1,4 +1,42 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+/*jshint -W054 */
+;(function (exports) {
+  'use strict';
+
+  function forEachAsync(arr, fn, thisArg) {
+    var dones = []
+      , index = -1
+      ;
+
+    function next(BREAK, result) {
+      index += 1;
+
+      if (index === arr.length || BREAK === forEachAsync.__BREAK) {
+        dones.forEach(function (done) {
+          done.call(thisArg, result);
+        });
+        return;
+      }
+
+      fn.call(thisArg, next, arr[index], index, arr);
+    }
+
+    setTimeout(next, 4);
+
+    return {
+      then: function (_done) {
+        dones.push(_done);
+        return this;
+      }
+    };
+  }
+  forEachAsync.__BREAK = {};
+
+  exports.forEachAsync = forEachAsync;
+}('undefined' !== typeof exports && exports || new Function('return this')()));
+
+},{}],2:[function(require,module,exports){
+var forEachAsync = require('forEachAsync').forEachAsync;
 var update= require("./update");
 
 window.onload = function(){
@@ -12,7 +50,7 @@ window.onload = function(){
       var hourstyle = "Hours";
 
       for (key in assignments)
-      { 
+      {
         var as=assignments[key];
         s=as.courseName+" "+as.deadline+" "+as.status+"\n";
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
@@ -21,7 +59,7 @@ window.onload = function(){
         var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
-        { 
+        {
           document.getElementById("defaultduemessage").style.display = "none";
           var id = guidGenerator();
           var buttonid = key;
@@ -71,7 +109,7 @@ window.onload = function(){
           }
         }
         else
-        { 
+        {
           document.getElementById("defaultcompletemessage").style.display = "none";
           var submittedOnDate = new Date(as.submittedOn);
           var submittedOnDateNum = submittedOnDate.getDate();
@@ -105,7 +143,7 @@ window.onload = function(){
          document.getElementById("addsubmit").onclick = function(){
             console.log("in submit");
             if(validateForm()==true)
-             { 
+             {
 
               var courseName= document.getElementById("cname").value;
               var status = "Not Submitted";
@@ -132,6 +170,8 @@ window.onload = function(){
 
 function submitAssignment(id){
   completecard(id);
+
+
 }
 
 // Function to generate random IDs for li items
@@ -146,14 +186,21 @@ function guidGenerator() {
 //function to update the completed card
 function completecard(key)
 {
-  chrome.storage.sync.get(null,function(assignments){
-    var as=assignments[key];
-    var presentDate = new Date();
-    var submittedOn = presentDate.toString();
-    console.log("cn "+as.courseName+" an "+as.assignmentName);
-    update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
-    window.location.reload();   // reloading page after db updated
-  });
+  forEachAsync([1],function (next,int,index, array){
+    chrome.storage.sync.get(null,function(assignments){
+      var as=assignments[key];
+      var presentDate = new Date();
+      var submittedOn = presentDate.toString();
+      console.log("cn "+as.courseName+" an "+as.assignmentName);
+      update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
+      console.log("update done");
+    })
+    console.log("for over");
+    next();
+  }).then(function(){
+    console.log("then doing");
+  //window.location.reload();
+  });  // reloading page after db updated
 
 }
 
@@ -182,7 +229,8 @@ function validateForm() {
     }
     return true;
 }
-},{"./update":2}],2:[function(require,module,exports){
+
+},{"./update":3,"forEachAsync":1}],3:[function(require,module,exports){
 function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
 {
   var obj={};
@@ -226,4 +274,4 @@ function update(courseName,assignmentName,deadline,status,submittedOn)
 
 module.exports=update;
 
-},{}]},{},[1]);
+},{}]},{},[2]);
