@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 
 body
 {
@@ -148,6 +153,8 @@ input[type=submit] {
   background-color: #3F51B5;
 
 }
+
+
 
 input[type="checkbox"] {
     display:none;

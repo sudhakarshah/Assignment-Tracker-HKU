@@ -1,4 +1,3 @@
-var forEachAsync = require('forEachAsync').forEachAsync;
 var update= require("./update");
 
 window.onload = function(){
@@ -31,7 +30,7 @@ window.onload = function(){
           var deadlinedatenum = deadlinedate.getDate();
           var deadlinemonth = deadlinedate.getMonth();
           var deadlineyear = deadlinedate.getFullYear();
-          var deadlinetime = deadlinedate.getHours().toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
+          var deadlinetime = ((deadlinedate.getHours()<10?'0':'') + deadlinedate.getHours()).toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
           var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
 
@@ -58,9 +57,15 @@ window.onload = function(){
 
             function updateClock() {
               var t = getTimeRemaining(endtime);
-              if(t.days<2){
-                document.getElementById(id).style.color = "#F44336";
+              if(t.days<2 && t.days>=0){
+                document.getElementById(id).style.animation = "blinker 1s linear infinite";
               }
+              else if(t.days<0)
+              {
+                document.getElementById(id).innerHTML = '<br><span class = "cardtext">Assignment Overdue</span>';
+
+              }
+
               daysSpan.innerHTML = t.days;
               hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
               minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
@@ -80,7 +85,7 @@ window.onload = function(){
           var submittedOnYear = submittedOnDate.getFullYear();
           var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
           var id = guidGenerator();
-          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label></li>';
+          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label></li>';
           document.getElementById("submittedcardlist").innerHTML+= html;
           var random_color = colors[Math.floor(Math.random() * colors.length)];
           document.getElementById(id).style.backgroundColor = random_color;
@@ -109,7 +114,7 @@ window.onload = function(){
             if(validateForm()==true)
              {
 
-              var courseName= document.getElementById("cname").value;
+              var courseName= document.getElementById("ccode").value + " " + document.getElementById("cname").value;
               var status = "Not Submitted";
               var assignmentName = document.getElementById("aname").value;
               var deadline = document.getElementById("calender").value.toString();
@@ -120,6 +125,14 @@ window.onload = function(){
               }
               document.getElementById("addform").style.display = "none";
               document.getElementById("formButton").innerHTML = "Add New Assignment";
+
+            }
+
+            else
+            {
+
+              document.getElementById("addform").style.display = "inline-block";
+
 
             }
          };
@@ -191,8 +204,17 @@ function getTimeRemaining(endtime) {
 
 function validateForm() {
     var x = document.forms["formadd"]["assignmentname"].value;
+
     if (x == "") {
-        return false;
+        var result = confirm("Assignment Name is required");
+        if(result)
+        { console.log(document.getElementById("addform").style.display);
+          document.getElementById("addform").style.display="inline-block";
+          console.log("in this");
+          return false;
+        }
+        
+       
     }
     return true;
 }
