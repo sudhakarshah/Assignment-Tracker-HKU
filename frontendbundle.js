@@ -14,7 +14,6 @@ window.onload = function(){
       for (key in assignments)
       {
         var as=assignments[key];
-        s=as.courseName+" "+as.deadline+" "+as.status+"\n";
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
         var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
         var assignmentName = as.assignmentName;
