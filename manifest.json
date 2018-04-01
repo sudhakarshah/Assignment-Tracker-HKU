@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Assignment Reminder",
-  "description": "Keeps a track of assignments for students at the University of Hong Kong ",
+  "name": "AssignTrack@HKU",
+  "description": "Automatically keeps a track of assignments of students at the university of Hong Kong ",
   "version": "3.0",
 
   "browser_action": {
