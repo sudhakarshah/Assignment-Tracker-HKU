@@ -27,7 +27,7 @@ window.onload = function(){
           var clockid = "clockdiv" + key.toString();
           var deadlinedate = new Date(as.deadline);
           var deadlinedatenum = deadlinedate.getDate();
-          var deadlinemonth = deadlinedate.getMonth();
+          var deadlinemonth = deadlinedate.getMonth()+1;
           var deadlineyear = deadlinedate.getFullYear();
           var deadlinetime = ((deadlinedate.getHours()<10?'0':'') + deadlinedate.getHours()).toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
@@ -58,18 +58,26 @@ window.onload = function(){
               var t = getTimeRemaining(endtime);
               if(t.days<2 && t.days>=0){
                 document.getElementById(id).style.animation = "blinker 1s linear infinite";
+                daysSpan.innerHTML = t.days;
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+                if (t.total <= 0){ 
+                  clearInterval(timeinterval);}
+
               }
               else if(t.days<0)
               {
                 document.getElementById(id).innerHTML = '<br><span class = "cardtext">Assignment Overdue</span>';
 
               }
-
+              else{
               daysSpan.innerHTML = t.days;
               hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
               minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
               secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
               if (t.total <= 0){clearInterval(timeinterval);}
+            }
             }
             updateClock();
             var timeinterval = setInterval(updateClock, 1000);
@@ -80,7 +88,7 @@ window.onload = function(){
           document.getElementById("defaultcompletemessage").style.display = "none";
           var submittedOnDate = new Date(as.submittedOn);
           var submittedOnDateNum = submittedOnDate.getDate();
-          var submittedOnMonth = submittedOnDate.getMonth();
+          var submittedOnMonth = submittedOnDate.getMonth()+1;
           var submittedOnYear = submittedOnDate.getFullYear();
           var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
           var id = guidGenerator();
