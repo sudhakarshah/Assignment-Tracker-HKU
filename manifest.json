@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "AssignTrack@HKU",
   "description": "Automatically keeps a track of assignments of students at the university of Hong Kong ",
-  "version": "3.0",
+  "version": "3.1.1",
 
   "browser_action": {
     "default_icon": "icon.png",
