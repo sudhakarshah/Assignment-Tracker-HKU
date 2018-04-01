@@ -13,11 +13,11 @@
     "matches":["https://moodle.hku.hk/mod/assign/view.php?*","http://moodle.hku.hk/mod/assign/view.php?*"],
     "js":["bundle.js"]
   }
- ,
+ /*,
  {
     "matches":["http://moodle.hku.hk/mod/turnitintooltwo/*","https://moodle.hku.hk/mod/turnitintooltwo/*"],
     "js":["Turnitinbundle.js"]
-  }
+  }*/
   ],
   "permissions": [
     "activeTab",
