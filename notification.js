@@ -62,7 +62,7 @@ window.onload = function(){
                 hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
                 minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
                 secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-                if (t.total <= 0){ 
+                if (t.total <= 0){
                   clearInterval(timeinterval);}
 
               }
@@ -92,7 +92,7 @@ window.onload = function(){
           var submittedOnYear = submittedOnDate.getFullYear();
           var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
           var id = guidGenerator();
-          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label>' + '<pre></pre>' +  '<input type = "checkbox" class="incompletebutton" id="' +buttonid+'"/>'+ ' ' +  '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Mark as Incomplete</label>' + '</li>';
+          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><div><input type = "checkbox" class="deletebutton" id="'+buttonid+'"> <label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label>' + '</div><div><input type = "checkbox" class="incompletebutton" id="' +buttonid+'"> <label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Mark as Incomplete</label></div></li>';
           document.getElementById("submittedcardlist").innerHTML+= html;
           var random_color = colors[Math.floor(Math.random() * colors.length)];
           document.getElementById(id).style.backgroundColor = random_color;
@@ -138,15 +138,9 @@ window.onload = function(){
 
             else
             {
-
               document.getElementById("addform").style.display = "inline-block";
-
-
             }
          };
-
-
-
 
 
          // creating event listners for all the assignment cards
@@ -155,11 +149,19 @@ window.onload = function(){
            buttons[i].addEventListener('click', function(){submitAssignment(this.id)}, false);
          }
 
+         var incompleteButtons=document.getElementsByClassName('incompletebutton');
+         console.log("buttons read");
+         for(var i=0;i<incompleteButtons.length;i++){
+           console.log("but"+i);
+           incompleteButtons[i].addEventListener('click',function(){incompleteAssignment(this.id)},false);
+         }
+
          var delButtons=document.getElementsByClassName('deletebutton');
          for(var i=0;i<delButtons.length;i++){
-           console.log("but"+i);
            delButtons[i].addEventListener('click',function(){deleteAssignment(this.id)},false);
          }
+
+
 
          // adding keyup event for assignment field
          var assignmentfield=document.getElementById('aname');
@@ -180,6 +182,10 @@ function deleteAssignment(id){
   setTimeout(function(){ window.location.reload(); },500);
 }
 
+function incompleteAssignment(id){
+  incompletecard(id);
+}
+
 // enabling submit button
 function isFilled(){
   var i=document.getElementById('aname');
@@ -197,8 +203,7 @@ function guidGenerator() {
     return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 }
 
-
-//function to update the completed card
+//function to update the incompleted card
 function completecard(key)
 {
     chrome.storage.sync.get(null,function(assignments){
@@ -206,6 +211,19 @@ function completecard(key)
       var presentDate = new Date();
       var submittedOn = presentDate.toString();
       update(as.courseName,as.assignmentName,as.deadline,"Submitted",submittedOn);
+    })
+    setTimeout(function(){ window.location.reload(); }, 500);
+}
+
+
+//function to update the completed card
+function incompletecard(key)
+{
+    console.log("incompleting the card");
+    chrome.storage.sync.get(null,function(assignments){
+      var as=assignments[key];
+      var submittedOn="Undefined";
+      update(as.courseName,as.assignmentName,as.deadline,"Not Submitted",submittedOn);
     })
     setTimeout(function(){ window.location.reload(); }, 500);
 }
@@ -270,10 +288,9 @@ function validateForm() {
     { console.log((b[i].getElementsByClassName("dd"))[0].innerHTML + "and" + (b[i+1].getElementsByClassName("dd"))[0].innerHTML);
       b[i].parentNode.insertBefore(b[i + 1], b[i]);
       switching = true;
-      
+
     }
 
   }
-  
-}
 
+}
