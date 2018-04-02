@@ -17,7 +17,7 @@ window.onload = function(){
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
         var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
         var assignmentName = as.assignmentName;
-        var colors = ['#4A148C', '#004D40', '#3E2723','#0d47a1', '#311B92', '#004D40' , '#1B5E20' , '#E65100', '#212121', '#263238'];
+        var colors = ['#009688', '#0288D1' , '#0091EA' , '#F4511E' , '#E64A19' , '#FF3D00' , '#78909C', '691A99', '7A1EA1', '008975', 'FF4081' , '#D84315', '#827717'];
         var buttonid = key;
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
@@ -32,7 +32,7 @@ window.onload = function(){
           var deadlineyear = deadlinedate.getFullYear();
           var deadlinetime = ((deadlinedate.getHours()<10?'0':'') + deadlinedate.getHours()).toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
-          var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div></li>';
+          var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div><span class="dd">' + deadlinedate +  '</span></li>';
 
           document.getElementById("duecardlist").innerHTML+= html;
           var random_color = colors[Math.floor(Math.random() * colors.length)];
@@ -93,7 +93,7 @@ window.onload = function(){
           var submittedOnYear = submittedOnDate.getFullYear();
           var submittedOnTime = submittedOnDate.getHours() + ':' + ((submittedOnDate.getMinutes()<10?'0':'') + submittedOnDate.getMinutes());
           var id = guidGenerator();
-          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label></li>';
+          var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><input type = "checkbox" class="deletebutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label>' + '<pre></pre>' +  '<input type = "checkbox" class="incompletebutton" id="' +buttonid+'"/>'+ ' ' +  '<label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Mark as Incomplete</label>' + '</li>';
           document.getElementById("submittedcardlist").innerHTML+= html;
           var random_color = colors[Math.floor(Math.random() * colors.length)];
           document.getElementById(id).style.backgroundColor = random_color;
@@ -102,6 +102,7 @@ window.onload = function(){
     })
     // after everything is rendered
    setTimeout(function(){
+
 
          document.getElementById("formButton").onclick = function(){
            var x =document.getElementById("addform");
@@ -144,6 +145,11 @@ window.onload = function(){
 
             }
          };
+
+
+
+
+
          // creating event listners for all the assignment cards
          var buttons=document.getElementsByClassName('markbutton');
          for (var i=0;i<buttons.length;i++){
@@ -159,6 +165,9 @@ window.onload = function(){
          // adding keyup event for assignment field
          var assignmentfield=document.getElementById('aname');
          assignmentfield.addEventListener('keyup',function(){ isFilled();},false);
+
+         //calling sortdeadline function to sort the list
+         sortdeadlinelist();
 
    });
  }
@@ -234,6 +243,41 @@ function validateForm() {
     }
     return true;
 }
+
+
+
+ //Sorting the assignments according to due date
+ function sortdeadlinelist()
+ {
+  console.log("sortingg");
+  var list, i , switching, b, shouldSwitch;
+  list = document.getElementById("duecardlist");
+  switching = true;
+  while(switching)
+  {
+    switching = false;
+    b = list.getElementsByTagName("LI");
+    for(i=0; i<(b.length-1) ; i++)
+    {
+      shouldSwitch = false;
+      console.log((b[i].getElementsByClassName("dd"))[0].innerHTML);
+      if(  new Date((b[i].getElementsByClassName("dd"))[0].innerHTML) > new Date((b[i+1].getElementsByClassName("dd"))[0].innerHTML) ){
+      shouldSwitch = true;
+      break;
+
+      }
+    }
+    if(shouldSwitch)
+    { console.log((b[i].getElementsByClassName("dd"))[0].innerHTML + "and" + (b[i+1].getElementsByClassName("dd"))[0].innerHTML);
+      b[i].parentNode.insertBefore(b[i + 1], b[i]);
+      switching = true;
+      
+    }
+
+  }
+  
+}
+
 
 },{"./update":2}],2:[function(require,module,exports){
 function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn)
