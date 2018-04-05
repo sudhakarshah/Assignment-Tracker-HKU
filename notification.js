@@ -16,7 +16,7 @@ window.onload = function(){
         var coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));
         var coursestring = (as.courseName).substr((as.courseName).indexOf(' ')+1);
         var assignmentName = as.assignmentName;
-        var colors = ['#009688', '#0288D1' , '#0091EA' , '#F4511E' , '#E64A19' , '#FF3D00' , '#78909C', '691A99', '7A1EA1', '008975', 'FF4081' , '#D84315', '#827717'];
+        //var colors = ['#009688', '#0288D1' , '#0091EA' , '#F4511E' , '#E64A19' , '#FF3D00' , '#78909C', '691A99', '7A1EA1', '008975', 'FF4081' , '#D84315', '#827717'];
         var buttonid = key;
         //to sort the assignment according to submission status
         if(as.status!="Submitted")
@@ -34,19 +34,20 @@ window.onload = function(){
           var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div><span class="dd">' + deadlinedate +  '</span></li>';
 
           document.getElementById("duecardlist").innerHTML+= html;
-          var random_color = colors[Math.floor(Math.random() * colors.length)];
-          document.getElementById(id).style.backgroundColor = random_color;
-          document.getElementById(buttonid).style.backgroundColor = random_color;
+         // var random_color = colors[Math.floor(Math.random() * colors.length)];
+          document.getElementById(id).style.backgroundColor = "#0D47A1";
+          document.getElementById(buttonid).style.backgroundColor = "#0D47A1";
 
           //function to initialize clock
           var clocks = document.getElementsByClassName("clockdiv");
+          var cards = document.getElementsByClassName("coursecard");
           for(var i=0 ; i<clocks.length ; i++){
             var keydate = clocks[i].id.substring(8);
             var dateobject = new Date(assignments[keydate].deadline);
-            initializeClock(clocks[i].id, dateobject);
+            initializeClock(clocks[i].id, dateobject,cards[i].id);
           }
 
-          function initializeClock(id, endtime) {
+          function initializeClock(id, endtime,card_id) {
             var clock = document.getElementById(id);
             var daysSpan = clock.querySelector('.days');
             var hoursSpan = clock.querySelector('.hours');
@@ -58,6 +59,8 @@ window.onload = function(){
               var t = getTimeRemaining(endtime);
               if(t.days<2 && t.days>=0){
                 document.getElementById(id).style.animation = "blinker 1s linear infinite";
+                document.getElementById(id).style.backgroundColor = "#F44336";
+                document.getElementById(card_id).style.backgroundColor = "#F44336";
                 daysSpan.innerHTML = t.days;
                 hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
                 minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
@@ -69,6 +72,9 @@ window.onload = function(){
               else if(t.days<0)
               {
                 document.getElementById(id).innerHTML = '<br><span class = "cardtext">Assignment Overdue</span>';
+                document.getElementById(id).style.backgroundColor = "#F44336";
+                document.getElementById(card_id).style.backgroundColor = "#F44336";
+
 
               }
               else{
@@ -94,8 +100,8 @@ window.onload = function(){
           var id = guidGenerator();
           var html = '<li class="card coursecard"' + 'id="'+ id + '"><span class="cardtext"><span class="cardtitle">' + coursecode + ' (' + as.assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">' + 'Completed on:  ' + submittedOnDateNum.toString() + '-' +  submittedOnMonth.toString() + '-' + submittedOnYear.toString() + ',' + ' ' + submittedOnTime  + '</span></span><br><br><div><input type = "checkbox" class="deletebutton" id="'+buttonid+'"> <label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Delete</label>' + '</div><div><input type = "checkbox" class="incompletebutton" id="' +buttonid+'"> <label class="cardtitle" for="'+ buttonid+ '"><span class="cardtext"></span>Mark as Incomplete</label></div></li>';
           document.getElementById("submittedcardlist").innerHTML+= html;
-          var random_color = colors[Math.floor(Math.random() * colors.length)];
-          document.getElementById(id).style.backgroundColor = random_color;
+          //var random_color = colors[Math.floor(Math.random() * colors.length)];
+          document.getElementById(id).style.backgroundColor = "#43A047";
         }
       }
     })
