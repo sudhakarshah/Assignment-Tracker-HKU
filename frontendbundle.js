@@ -32,7 +32,7 @@ window.onload = function(){
           var deadlineyear = deadlinedate.getFullYear();
           var deadlinetime = ((deadlinedate.getHours()<10?'0':'') + deadlinedate.getHours()).toString() + ':' + ((deadlinedate.getMinutes()<10?'0':'') + deadlinedate.getMinutes()).toString();
 
-          var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardBody">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div><span class="dd">' + deadlinedate +  '</span></li>';
+          var html = '<li><div class="card coursecard" id='+id+'>' + '<span class="cardtext"> <span class="cardtitle">' + coursecode + ' ' + '(' + assignmentName + ')' + '</span><br><span class="cardBody">' + coursestring + '</span><br><br><span class="cardtitle">Due on:' + ' ' + deadlinedatenum.toString() + '-' + deadlinemonth.toString() + '-' + deadlineyear.toString() + ',' + ' ' + deadlinetime.toString()  + '</span><br><div class= "clockdiv" id="' + clockid +'"><div><span class="days"></span><div class="smalltext">Days</div></div><div><span class="hours"></span><div class="smalltext">Hours</div></div><div><span class="minutes"></span><div class="smalltext">Minutes</div></div><div><span class="seconds"></span><div class="smalltext">Seconds</div></div></div>' + '<br><br><input type = "checkbox" class="markbutton" id="'+buttonid+'"/>'+ ' ' + '<label class="cardtitle" for=' + '"' + buttonid + '"' + '><span class="cardtext"></span>Mark as Complete</label>' +'</div><span class="dd">' + deadlinedate +  '</span></li>';
 
           document.getElementById("duecardlist").innerHTML+= html;
          // var random_color = colors[Math.floor(Math.random() * colors.length)];
@@ -60,8 +60,8 @@ window.onload = function(){
               var t = getTimeRemaining(endtime);
               if(t.days<2 && t.days>=0){
                 document.getElementById(id).style.animation = "blinker 1s linear infinite";
-                document.getElementById(id).style.backgroundColor = "#F44336";
-                document.getElementById(card_id).style.backgroundColor = "#F44336";
+                document.getElementById(id).style.backgroundColor = "#B71C1C";
+                document.getElementById(card_id).style.backgroundColor = "#B71C1C";
                 daysSpan.innerHTML = t.days;
                 hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
                 minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
@@ -73,8 +73,8 @@ window.onload = function(){
               else if(t.days<0)
               {
                 document.getElementById(id).innerHTML = '<br><span class = "cardtext">Assignment Overdue</span>';
-                document.getElementById(id).style.backgroundColor = "#F44336";
-                document.getElementById(card_id).style.backgroundColor = "#F44336";
+                document.getElementById(id).style.backgroundColor = "#B71C1C";
+                document.getElementById(card_id).style.backgroundColor = "#B71C1C";
 
 
               }
