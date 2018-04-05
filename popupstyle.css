@@ -70,6 +70,18 @@ ul
   font-weight: bold;
 }
 
+
+.cardStatus{
+  color: white;
+  font-family: 'Source Sans Pro' , sans-serif;
+  font-size: 15px;
+  margin-bottom : 100px;
+  padding-top: 100px;
+ 
+
+  font-weight: bold;
+}
+
 .cardBody{
 	color: white;
 	font-family: 'Source Sans Pro' , sans-serif;
