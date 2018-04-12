@@ -14,10 +14,13 @@ if(document.getElementsByClassName('left cell c2')[0].innerText=="--")
 if(status="Submitted")
 {
   submittedOn=document.getElementsByClassName('right cell c7')[0].innerText;
+
+  var slashIndex1=submittedOn.indexOf('/');
+  var slashIndex2=submittedOn.indexOf('/',slashIndex1+1);
+  submittedOn=submittedOn.substr(slashIndex1+1,slashIndex2-slashIndex1-1)+'/'+submittedOn.substr(0,slashIndex1)+'/'+submittedOn.substr(slashIndex2+1);
 }
-var slashIndex1=submittedOn.indexOf('/');
-var slashIndex2=submittedOn.indexOf('/',slashIndex1+1);
-submittedOn=submittedOn.substr(slashIndex1+1,slashIndex2-slashIndex1-1)+'/'+submittedOn.substr(0,slashIndex1)+'/'+submittedOn.substr(slashIndex2+1);
+
+
 
 //finding course name
 var aTag=document.querySelectorAll('[itemprop="url"]')[1];
