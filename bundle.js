@@ -31,11 +31,10 @@ for (var i=0;i<a.length;i++)
 // Finding the name of the course
 var aTag=document.querySelectorAll('[itemprop="url"]')[1];
 courseName=aTag.getAttribute("title");
-console.log(courseName);
+
 
 // finding assignment name
 assignmentName=document.querySelectorAll('[itemprop="title"]')[3].innerText;
-console.log(assignmentName);
 
 if (deadline!="Undefined"){
   update(courseName,assignmentName,deadline,status,submittedOn);
