@@ -7,7 +7,7 @@ function addListeners() {
 		if (x.style.display === "none") {
 			x.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
-			document.getElementById("calander").value = moment().format("YYYY-MM-DDTHH:mm");
+			document.getElementById("calender").value = moment().format("YYYY-MM-DDTHH:mm");
 		} else {
 			x.style.display = "none";
 			document.getElementById("formButton").innerHTML = "Add New Assignment";
@@ -18,7 +18,7 @@ function addListeners() {
 		const courseName = document.getElementById("ccode").value.replace(/\s/g,'') + " " + document.getElementById("cname").value;
 		const status = "Not Submitted";
 		const assignmentName = document.getElementById("assignmentname").value;
-		const deadline = document.getElementById("calander").value.toString();
+		const deadline = document.getElementById("calender").value.toString();
 		const submittedOn = "Undefined";
 		if ( deadline != "Undefined" ) {
 			update(courseName,assignmentName,deadline,status,submittedOn);
