@@ -160,7 +160,7 @@ function addHtml(assignments, callback) {
 				</div>
 				<div class="buttons">
 					<button class="btn deletebutton" id=${buttonid}>Delete</button>
-					<button class="btn incompletebutton" id=${buttonid}>Incompleted</button>
+					<button class="btn incompletebutton" id=${buttonid}>Mark Due</button>
 				</div>
 				</li>`
 			;
