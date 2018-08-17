@@ -75,17 +75,17 @@ function addHtml(assignments, callback) {
 						<span class="cardBody">${coursestring}</span>
 						<br>
 						<br>
-						<span class="cardtitle">Due on: ${deadline.format('Do MMM, HH:mm')}</span>
-						<br>
 						<div class="clockdiv" id=${clockid}>
 							<div><span class="days"></span><div class="smalltext">Days</div></div>
 							<div><span class="hours"></span><div class="smalltext">Hours</div></div>
 							<div><span class="minutes"></span><div class="smalltext">Minutes</div></div>
 							<div><span class="seconds"></span><div class="smalltext">Seconds</div></div>
 						</div>
+						<br>
+						<span class="cardtitle">Due on: ${deadline.format('Do MMM, HH:mm')}</span>
 					</div>
 					<div class="buttons">
-						<button class="markbutton" id=${buttonid}>Completed</button>
+						<button class="btn markbutton" id=${buttonid}>Completed</button>
 					</div>
 				</div>
 				<span class="dd">${deadline}</span>
@@ -94,7 +94,7 @@ function addHtml(assignments, callback) {
 
 			document.getElementById("duecardlist").innerHTML += html;
 			document.getElementById(id).style.backgroundColor = "#0D47A1";
-			document.getElementById(buttonid).style.backgroundColor = "#0D47A1";
+			// document.getElementById(buttonid).style.backgroundColor = "#0D47A1";
 
 			//function to initialize clock
 			let clocks = document.getElementsByClassName("clockdiv");
@@ -159,8 +159,8 @@ function addHtml(assignments, callback) {
 					<span class="cardtitle">Completed on: ${submitDate.format('Do MMM, HH:mm')}</span>
 				</div>
 				<div class="buttons">
-					<button class="deletebutton" id=${buttonid}>Delete</button>
-					<button class="incompletebutton" id=${buttonid}>Incompleted</button>
+					<button class="btn deletebutton" id=${buttonid}>Delete</button>
+					<button class="btn incompletebutton" id=${buttonid}>Incompleted</button>
 				</div>
 				</li>`
 			;
