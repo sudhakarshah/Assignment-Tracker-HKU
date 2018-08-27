@@ -52,6 +52,8 @@ function addListeners() {
 }
 function addHtml(assignments, callback) {
 	let assignmentCount = 0;
+	if (assignmentCount == Object.keys(assignments).length)
+		callback();
 	for (key in assignments) {
 		let as = assignments[key];
 		let coursecode = as.courseName.substr(0,(as.courseName).indexOf(' '));

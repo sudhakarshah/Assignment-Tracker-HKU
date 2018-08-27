@@ -230,15 +230,15 @@ input[type=submit]:disabled {
     color: white;
 }
 .incompletebutton {
-    border-color: #ff9800;;
-    color: orange;
+    border-color: #0D47A1;
+    color: #0D47A1;
 }
 
 .incompletebutton:hover {
-    background-color: #ff9800;;
+    background-color: #0D47A1;
     color: white;
 }
 
 .dd {
-  display: none;
+    display: none;
 }
