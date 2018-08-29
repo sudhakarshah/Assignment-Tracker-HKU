@@ -1,15 +1,18 @@
 var update= require("./update");
 var moment = require('moment');
 
+
+
 function addListeners() {
 	document.getElementById("formButton").onclick = () => {
-		let x = document.getElementById("addform");
-		if (x.style.display === "none") {
-			x.style.display = "inline-block";
+		
+		var formSelector = document.getElementById("addform");
+		if (window.getComputedStyle(formSelector,null).getPropertyValue("display")  === "none") {
+			formSelector.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
 			document.getElementById("calender").value = moment().format("YYYY-MM-DDTHH:mm");
 		} else {
-			x.style.display = "none";
+			formSelector.style.display = "none";
 			document.getElementById("formButton").innerHTML = "Add New Assignment";
 		}
 	}
@@ -180,6 +183,8 @@ window.onload = function() {
 	chrome.storage.sync.get(null, (assignments) => {
 		addHtml(assignments, addListeners)
 	})
+
+	
 }
 
 function reload() {
