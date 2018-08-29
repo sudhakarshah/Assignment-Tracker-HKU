@@ -1,15 +1,26 @@
 var update= require("./update");
 var moment = require('moment');
 
+
+var formButtonCount = 0; //To track clicks on the formButton
 function addListeners() {
 	document.getElementById("formButton").onclick = () => {
-		let x = document.getElementById("addform");
-		if (x.style.display === "none") {
-			x.style.display = "inline-block";
+		
+		
+		if(formButtonCount===0)
+		{
+			document.getElementById("formButton").click();
+			formButtonCount++;
+		}
+		var formSelector = document.getElementById("addform");
+
+		console.log(formSelector.style.display);
+		if (formSelector.style.display === "none") {
+			formSelector.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
 			document.getElementById("calender").value = moment().format("YYYY-MM-DDTHH:mm");
 		} else {
-			x.style.display = "none";
+			formSelector.style.display = "none";
 			document.getElementById("formButton").innerHTML = "Add New Assignment";
 		}
 	}
@@ -180,6 +191,8 @@ window.onload = function() {
 	chrome.storage.sync.get(null, (assignments) => {
 		addHtml(assignments, addListeners)
 	})
+
+	
 }
 
 function reload() {
