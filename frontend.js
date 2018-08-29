@@ -2,20 +2,12 @@ var update= require("./update");
 var moment = require('moment');
 
 
-var formButtonCount = 0; //To track clicks on the formButton
+
 function addListeners() {
 	document.getElementById("formButton").onclick = () => {
 		
-		
-		if(formButtonCount===0)
-		{
-			document.getElementById("formButton").click();
-			formButtonCount++;
-		}
 		var formSelector = document.getElementById("addform");
-
-		console.log(formSelector.style.display);
-		if (formSelector.style.display === "none") {
+		if (window.getComputedStyle(formSelector,null).getPropertyValue("display")  === "none") {
 			formSelector.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
 			document.getElementById("calender").value = moment().format("YYYY-MM-DDTHH:mm");
