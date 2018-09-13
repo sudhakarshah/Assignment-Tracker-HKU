@@ -7,7 +7,7 @@ function updateRecord(key,courseName,assignmentName,deadline,status,submittedOn,
 
 }
 
-function update(courseName,assignmentName,deadline,status,submittedOn,callback = () => {}) { 
+function update(courseName,assignmentName,deadline,status,submittedOn,callback = () => {}) {
 	// Checking whether assignment already exists in storage and adding only new assignments
 	let assignmentExists=false;
 	chrome.storage.sync.get(null,function(data) {
@@ -24,7 +24,11 @@ function update(courseName,assignmentName,deadline,status,submittedOn,callback =
 		}
 
 		if (assignmentExists == false) {
-			let newkey = 'Assignment'+ Date.now();
+			let newkey = 'Assignment' + Date.now();
+			// sending notification request
+			chrome.extension.sendRequest({key: newkey, name: courseName, title: "New Assignment Added"}, (response) => {
+			    console.log(response.returnMsg);
+			});
 			updateRecord(newkey,courseName,assignmentName,deadline,status,submittedOn,callback);
 		}
 		else {
