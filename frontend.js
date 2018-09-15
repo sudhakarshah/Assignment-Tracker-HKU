@@ -6,7 +6,7 @@ var moment = require('moment');
 function addListeners() {
 	document.getElementById("formButton").onclick = () => {
 		
-		var formSelector = document.getElementById("addform");
+		let formSelector = document.getElementById("addform");
 		if (window.getComputedStyle(formSelector,null).getPropertyValue("display")  === "none") {
 			formSelector.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
@@ -198,7 +198,7 @@ function deleteAssignment(id){
 // enabling submit button
 function isFormFilled(){
 	const assignmentNameField =document.getElementById('assignmentname');
-	return ( assignmentNameField.value !== "");
+	return (assignmentNameField.value !== "");
 }
 
 // Function to generate random IDs for li items
