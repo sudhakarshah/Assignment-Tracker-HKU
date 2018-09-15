@@ -6,7 +6,7 @@ var moment = require('moment');
 function addListeners() {
 	document.getElementById("formButton").onclick = () => {
 		
-		var formSelector = document.getElementById("addform");
+		let formSelector = document.getElementById("addform");
 		if (window.getComputedStyle(formSelector,null).getPropertyValue("display")  === "none") {
 			formSelector.style.display = "inline-block";
 			document.getElementById("formButton").innerHTML = "Close";
@@ -90,7 +90,7 @@ function addHtml(assignments, callback) {
 						<span class="cardtitle">Due on: ${deadline.format('Do MMM, HH:mm')}</span>
 					</div>
 					<div class="buttons">
-						<button class="btn markbutton" id=${buttonid}>Completed</button>
+						<button class="btn markbutton" id=${buttonid}>Mark Complete</button>
 					</div>
 				</div>
 				<span class="dd">${deadline}</span>
@@ -198,7 +198,7 @@ function deleteAssignment(id){
 // enabling submit button
 function isFormFilled(){
 	const assignmentNameField =document.getElementById('assignmentname');
-	return ( assignmentNameField.value !== "");
+	return (assignmentNameField.value !== "");
 }
 
 // Function to generate random IDs for li items
