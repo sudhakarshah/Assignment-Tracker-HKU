@@ -90,7 +90,7 @@ function addHtml(assignments, callback) {
 						<span class="cardtitle">Due on: ${deadline.format('Do MMM, HH:mm')}</span>
 					</div>
 					<div class="buttons">
-						<button class="btn markbutton" id=${buttonid}>Mark as Completed</button>
+						<button class="btn markbutton" id=${buttonid}>Mark Complete</button>
 					</div>
 				</div>
 				<span class="dd">${deadline}</span>
